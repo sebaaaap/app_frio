@@ -23,5 +23,9 @@ class UserRepository:
     def verificar_existencia_by_rut(self, user_rut : str) ->Optional[UserModel]:
         return self.db.query(UserModel).filter(UserModel.rut == user_rut).first()
     
+    def verificar_credenciales(self, user_rut : str, user_password : str) -> Optional[UserModel]:
+        return self.db.query(UserModel).filter(and_(UserModel.rut == user_rut,
+                                                    UserModel.password == user_password)).first()
+    
     def get_all(self) ->Optional[UserModel]:
         return self.db.query(UserModel).all()
