@@ -16,7 +16,7 @@ class UserRepository:
         
         self.db.add(user_db)
         self.db.commit()
-        self.db.refresh(user_data)
+        self.db.refresh(user_db)
         
         return user_db
     

@@ -3,7 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware  # Importa el middleware CORS
 from app.database.conexion import Base, engine
 from app.models.registro import RegistroModel
 from app.models.user import UserModel
-
+from app.controllers.registro import router as registro_router
+from app.controllers.user import router as user_router
 
 # Crea la instancia de FastAPI
 app = FastAPI()
@@ -26,3 +27,6 @@ def read_root():
 
 # Monta las rutas
 # app.include_router(user_router, prefix="/adecco/users")
+# Monta las rutas
+app.include_router(user_router, prefix="/adecco/users")
+app.include_router(registro_router, prefix="/adecco/registro")

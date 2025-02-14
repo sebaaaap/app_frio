@@ -34,10 +34,10 @@ class RegistroService :
                 detail=f"Error al registrar la salida: {str(e)}"
             )
     
-    def salir_camara(self, user_rut: str, user_password: str):
+    def salir(self, user_rut: str, user_password: str):
         try:
             # Verificar las credenciales del usuario
-            user_db = self.user_repo.validar_credenciales(user_rut, user_password)
+            user_db = self.user_repo.verificar_credenciales(user_rut, user_password)
             if not user_db:
                 raise HTTPException(
                     status_code=status.HTTP_401_UNAUTHORIZED,

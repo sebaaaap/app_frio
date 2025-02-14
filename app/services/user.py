@@ -14,7 +14,7 @@ class UserService:
     def user_create(self, user: UserCreate):
         try:
             # Verificar si el usuario ya existe
-            if self.user_repo.verificar_existencia_by_rut(user.user_rut):
+            if self.user_repo.verificar_existencia_by_rut(user.rut):
                 raise HTTPException(
                     status_code=status.HTTP_409_CONFLICT,
                     detail="El usuario ya existe"
@@ -22,7 +22,7 @@ class UserService:
 
             # Crear el usuario
             user_dict = user.model_dump()  # Convertir el esquema Pydantic a un diccionario
-            user_db = self.user_repo.user_create(user_dict)
+            self.user_repo.create(user_dict)
 
             # Retornar True si el usuario se crea correctamente
             return True
