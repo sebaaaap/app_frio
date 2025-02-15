@@ -43,7 +43,21 @@ dos:
 ```sh
 docker run --name nutrisco -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=nutrisco -p 5432:5432 -d postgres
 ```
+tres, meterte a la bdd en el contenedor :
+```sh
+docker exec -it nutrisco bash
+psql -U postgres -d nutrisco
+```
+ya aqui puedes ver las tablas, para ver las tablas:
+```sh
+\dt
+```
 
+para ver contenido de las tablas:
+```sh
+SELECT*FROM users;
+SELECT*FROM registros;
+```
 
 ### 5. Ejecutar el servidor FastAPI
 ```sh
