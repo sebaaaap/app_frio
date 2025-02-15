@@ -59,5 +59,5 @@ Una vez ejecutado el servidor, accede a la documentación interactiva en:
 - **Redoc:** [http://127.0.0.1:8000/redoc](http://127.0.0.1:8000/redoc)
 
 ## Contribución
-si yo te dejo jonathan alarcon, hace el git clon noma
+hace el git clon noma
 
