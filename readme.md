@@ -26,8 +26,9 @@ venv\Scripts\activate    # En Windows
 
 ### 3. Instalar dependencias
 ```sh
+pip install --upgrade pip      
 pip install "fastapi[standard]"
-pip install psycopg2
+pip install psycopg2-binary
 pip install sqlalchemy
 ```
 
@@ -59,18 +60,17 @@ SELECT*FROM users;
 SELECT*FROM registros;
 ```
 
-### 5. Ejecutar el servidor FastAPI
+### 5. Ejecutar el servidor FastAPI, asegurate de estar en la carpeta 'app' en donde este el main.py
 ```sh
-uvicorn main:app --reload
+fastapi dev main.py 
 ```
-
-Reemplaza `main` por el nombre del archivo donde se instancia `FastAPI()`.
 
 ## Uso
 Una vez ejecutado el servidor, accede a la documentación interactiva en:
 
 - **Swagger UI:** [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
 - **Redoc:** [http://127.0.0.1:8000/redoc](http://127.0.0.1:8000/redoc)
+
 
 ## Contribución
 hace el git clon noma
