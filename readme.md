@@ -10,18 +10,18 @@ Asegúrate de tener instalado:
 
 ## Instalación
 
-### 1. Clonar el repositorio
-```sh
-# Clona el repositorio (reemplaza con tu URL si es necesario)
-git clone https://github.com/tu_usuario/tu_proyecto.git
-cd tu_proyecto
-```
-
-### 2. Crear un entorno virtual
+### 1. Crear un entorno virtual
 ```sh
 python -m venv venv
 source venv/bin/activate  # En macOS/Linux
 venv\Scripts\activate    # En Windows
+```
+
+### 2. Clonar el repositorio
+```sh
+# Clona el repositorio (reemplaza con tu URL si es necesario)
+git clone https://github.com/tu_usuario/tu_proyecto.git
+cd tu_proyecto
 ```
 
 ### 3. Instalar dependencias
