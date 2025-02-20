@@ -10,6 +10,9 @@ class RegistroCreate(BaseModel):
 class Ingresar_Salir(BaseModel):
     user_rut: str
     user_password: str
+
+class MessageResponse(BaseModel):
+    message : str
     
 class RegistroResponse(BaseModel):
     id: int

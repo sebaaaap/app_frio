@@ -19,6 +19,7 @@ app.add_middleware(
 )
 
 # Crea las tablas en la base de datos
+#imporatnte importalas, como arriba
 Base.metadata.create_all(bind=engine)
 
 @app.get("/")
