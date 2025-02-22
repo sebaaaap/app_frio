@@ -3,7 +3,7 @@ from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 from app.repositories.user import UserRepository
 from app.repositories.registro import  RegistroRepository
-from app.schemas.user import UserCreate, UserResponse
+from app.schemas.user import UserCreate, UserResponse, UserUpdate
 from app.models.user import UserModel
 
 class UserService:
@@ -47,13 +47,13 @@ class UserService:
             usuarios_response = [
                 UserResponse(
                     id=usuario.id,
-                    user_name=usuario.user_name,
-                    user_lastname=usuario.user_lastname,
-                    user_rut=usuario.user_rut,
-                    user_email=usuario.user_email,  # Coma agregada aquí
-                    id_camara=usuario.id_camara,   # Asegúrate de que este campo exista
-                    id_cargo=usuario.id_cargo       # Asegúrate de que este campo exista
-                )
+                    name=usuario.name,
+                    lastname=usuario.lastname,
+                    rut=usuario.rut,
+                    email=usuario.email,
+                    password= usuario.password,
+                    cargo = usuario.cargo
+                   )
                 for usuario in usuarios
             ]
             
@@ -112,5 +112,52 @@ class UserService:
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Error al obtener el usuario: {str(e)}"
             )
-
+    def delete(self, user_id : int) -> Optional[bool]:
+        try:
+            user_db = self.get_by_id(user_id)
+            print(user_db)
+            if user_db:
+                user_delete  = self.user_repo.delete(user_db)
+                if user_delete :
+                    return False
+                return True
+            
+            return False 
         
+        except HTTPException as http_exc:
+        # Re-lanzar la excepción HTTPException para que FastAPI la maneje
+            raise http_exc    
+        
+        except Exception as e:
+        # Manejar cualquier error inesperado
+            raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error al obtener el usuario: {str(e)}"
+            )
+        
+    def update(self, user_id: int, user_data: UserUpdate) -> Optional[UserResponse]:
+     try:
+        # Verificar si el usuario existe
+        user_db = self.user_repo.get_by_id(user_id)
+        if not user_db:
+            raise HTTPException(status_code=404, detail="Usuario no encontrado")
+
+        # Convertir el esquema Pydantic a un diccionario
+        data_dict = user_data.model_dump(exclude_unset=True)
+
+        # Actualizar el usuario en el repositorio
+        updated_user = self.user_repo.update(user_id, data_dict)
+        if not updated_user:
+            raise HTTPException(status_code=500, detail="Error al actualizar el usuario")
+
+        # Convertir el objeto SQLAlchemy a un diccionario usando to_dict
+        user_dict = updated_user.to_dict()
+
+        # Convertir el diccionario a UserResponse usando model_validate
+        return UserResponse.model_validate(user_dict)  # ¡Aquí usamos model_validate!
+
+     except HTTPException as http_exc:
+        raise http_exc
+     except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error al actualizar el usuario: {str(e)}")
+            

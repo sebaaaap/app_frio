@@ -73,6 +73,6 @@ class RegistroService :
         except Exception as e:
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail=f"Error al registrar la salida: {str(e)}"
+                detail=f"Error al registrar la : {str(e)}"
             )
         

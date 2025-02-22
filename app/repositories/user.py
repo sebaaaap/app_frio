@@ -2,6 +2,7 @@ from typing import Optional
 from sqlalchemy import *
 from sqlalchemy.orm import Session
 from app.models.user import UserModel
+from app.schemas.user import UserUpdate
 
 class UserRepository: 
     
@@ -33,3 +34,25 @@ class UserRepository:
     
     def get_all(self) ->Optional[UserModel]:
         return self.db.query(UserModel).all()
+    
+    def delete(self, user: UserModel) -> Optional[UserModel]:
+        user_db = self.db.delete(user)
+        self.db.commit()
+        
+        return user_db
+    
+    def update(self, user_id: int, user_data: dict) -> Optional[UserModel]:
+        # Busca el usuario por su ID
+        user = self.db.query(UserModel).filter(UserModel.id == user_id).first()
+        if not user:
+            return None  # Si no existe, retorna None
+
+        # Actualiza solo los campos que se han proporcionado
+        for key, value in user_data.items():
+            setattr(user, key, value)
+
+        self.db.commit()
+        self.db.refresh(user)
+        return user
+    
+    

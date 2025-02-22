@@ -2,7 +2,7 @@ from typing import List
 from fastapi import *
 from sqlalchemy.orm import Session
 from app.database.session import get_db
-from app.schemas.user import UserCreate, UserResponse
+from app.schemas.user import UserCreate, UserResponse, UserUpdate
 from app.services.user import UserService
 
 router = APIRouter()
@@ -44,3 +44,22 @@ def users_get_all( db: Session = Depends(get_db)):
 def users_get_by_name( user_name : str,db: Session = Depends(get_db)):
     service = UserService(db)
     return service.get_by_nombre(user_name)
+
+
+@router.delete(
+    "/delete/{user_id}",
+    response_model= bool,
+    status_code= status.HTTP_200_OK
+)
+def user_delete(user_id : int, db : Session = Depends(get_db)):
+    service = UserService(db)
+    return service.delete(user_id)
+
+@router.put("/update/{user_id}", response_model=UserResponse)
+def update_user(
+    user_id: int,
+    user_data: UserUpdate,
+    db : Session = Depends(get_db)):
+    
+    service = UserService(db)
+    return service.update(user_id, user_data)
