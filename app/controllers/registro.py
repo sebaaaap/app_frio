@@ -19,7 +19,7 @@ def ingresar_camara(request: Ingresar_Salir, db: Session = Depends(get_db)):
 
 @router.post(
     "/salir",
-    response_model=MessageResponse,  # Retornar el tiempo dentro de la cámara
+    response_model=RegistroResponse,  
     status_code=status.HTTP_200_OK
 )
 def salir_camara(request: Ingresar_Salir, db: Session = Depends(get_db)):
@@ -27,9 +27,8 @@ def salir_camara(request: Ingresar_Salir, db: Session = Depends(get_db)):
         user_service = UserService(db)
         ## esto tiene el 'Registro_response'
         registro_db = service.salir(request.user_rut, request.user_password)
-        user_id = registro_db.get("user_id")
-        user_db = user_service.get_by_id(user_id)
+        # user_id = registro_db.get("user_id")
+        # user_db = user_service.get_by_id(user_id)
         
         if registro_db:
-            print(user_db)
-            return {"message": "el usuario salio de la camara"}
+            return registro_db

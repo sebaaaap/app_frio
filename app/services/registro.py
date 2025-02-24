@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from app.repositories.registro import RegistroRepository
 from app.repositories.user import UserRepository
 from _datetime import datetime
+from app.schemas.registro import RegistroResponse
 
 class RegistroService : 
     def __init__(self, db : Session):
@@ -41,7 +42,7 @@ class RegistroService :
             if not user_db:
                 raise HTTPException(
                     status_code=status.HTTP_401_UNAUTHORIZED,
-                    detail="Credenciales inválidas"
+                    detail="Credenciales inválidas jonathan"
                 )
 
             # Obtener el último registro de entrada del usuario
@@ -67,6 +68,10 @@ class RegistroService :
                 "tiempo_out": tiempo_out,
                 "tiempo_dentro": str(tiempo_dentro)  # Convertir a cadena
             }
+            # print(registro_db)
+            # Response = RegistroResponse.model_validate(registro_db)
+            
+            # return Response
 
         except HTTPException as http_exc:
             raise http_exc

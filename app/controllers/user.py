@@ -19,16 +19,16 @@ def create_user(user: UserCreate, db: Session = Depends(get_db)):
 
 # Endpoint para obtener un usuario por ID
 @router.get(
-    "/usersbyid/{user_id}",
+    "/get_by_id/{user_id}",
     response_model=UserResponse,
     status_code=status.HTTP_200_OK
 )
 def get_user_by_id(user_id: int, db: Session = Depends(get_db)):
     service = UserService(db)
-    return service.get_user_by_id(user_id)
+    return service.get_by_id(user_id)
 
 @router.get(
-    "/getall",
+    "/get_all",
     response_model= List[UserResponse],
     status_code=status.HTTP_200_OK
 )
