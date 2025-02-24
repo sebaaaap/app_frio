@@ -3,3 +3,4 @@ include
 lib
 pyvenc.cfg
 __pycache__/
+adecco_app1/app/models/__pycache__/

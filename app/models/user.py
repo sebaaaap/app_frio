@@ -12,7 +12,8 @@ class UserModel(Base):
     rut = Column(String, nullable=False, unique=True)
     email = Column(String, nullable=False, unique=True)
     password = Column(String, nullable=False)
-    cargo = Column(String, nullable=False )
+    position = Column(String, nullable=False )
+    company = Column(String, nullable= False)
     
     # Relación con Registro
     registros = relationship("RegistroModel", back_populates="user")

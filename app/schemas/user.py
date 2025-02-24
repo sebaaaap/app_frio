@@ -8,17 +8,16 @@ class UserCreate(BaseModel):
     rut: str
     email: EmailStr
     password: str
-    cargo: str
+    position: str
+    company: str
 
 # Esquema para responder con los datos de un User
 class UserResponse(BaseModel):
-    id: int
     name: str
     lastname: str
     rut: str
-    email: EmailStr
-    password: str
-    cargo: str
+    position: str
+    company : str
 
 class UserUpdate(BaseModel):
     name: Optional[str] = None
@@ -26,7 +25,8 @@ class UserUpdate(BaseModel):
     rut: Optional[str] = None
     email: Optional[str] = None
     password: Optional[str] = None
-    cargo: Optional[str] = None
+    position: Optional[str] = None
+    company: Optional[str] = None
 
 class MessageResponse(BaseModel):
     message: str

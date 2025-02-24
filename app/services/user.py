@@ -52,7 +52,8 @@ class UserService:
                     rut=usuario.rut,
                     email=usuario.email,
                     password= usuario.password,
-                    cargo = usuario.cargo
+                    position = usuario.position,
+                    company = usuario.company
                    )
                 for usuario in usuarios
             ]
@@ -160,4 +161,9 @@ class UserService:
         raise http_exc
      except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error al actualizar el usuario: {str(e)}")
-            
+
+    def search_users_by_name(self, name: str):
+        # Obtiene los usuarios del repositorio
+        users = self.user_repo.get_users_by_name(name)
+        # Convierte los modelos de SQLAlchemy a esquemas de Pydantic
+        return [UserResponse.from_orm(user) for user in users]

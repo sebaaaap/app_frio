@@ -2,7 +2,7 @@ from typing import List
 from fastapi import *
 from sqlalchemy.orm import Session
 from app.database.session import get_db
-from app.schemas.user import UserCreate, UserResponse, UserUpdate
+from app.schemas.user import *
 from app.services.user import UserService
 
 router = APIRouter()
@@ -10,12 +10,14 @@ router = APIRouter()
 # Endpoint para crear un usuario
 @router.post(
     "/create",
-    response_model= bool,
+    response_model= MessageResponse ,
     status_code=status.HTTP_201_CREATED
 )
 def create_user(user: UserCreate, db: Session = Depends(get_db)):
     service = UserService(db)
-    return service.user_create(user)
+    user_db = service.user_create(user)
+    
+    return { "message": "el que se mueve es gai"}
 
 # Endpoint para obtener un usuario por ID
 @router.get(
@@ -37,7 +39,7 @@ def users_get_all( db: Session = Depends(get_db)):
     return service.users_get_all()
 
 @router.get(
-    "/get_by_nombre/{user_name}",
+    "/get_by_name/{user_name}",
     response_model= UserResponse,
     status_code=status.HTTP_200_OK
 )
@@ -63,3 +65,10 @@ def update_user(
     
     service = UserService(db)
     return service.update(user_id, user_data)
+
+# @router.get("/buscar-usuarios", response_model=List[dict])
+# def buscar_usuarios(query: str = Query(..., min_length=1)):
+#     db = SessionLocal()
+#     resultados = db.query(Usuario).filter(Usuario.name.ilike(f"%{query}%")).limit(10).all()
+#     db.close()
+#     return [{"id": u.id, "name": u.name, "email": u.email} for u in resultados]

@@ -55,4 +55,6 @@ class UserRepository:
         self.db.refresh(user)
         return user
     
-    
+    def get_users_by_name(self, name: str):
+        # Busca usuarios cuyos nombres contengan la cadena proporcionada (case-insensitive)
+        return self.db.query(UserModel).filter(UserModel.name.ilike(f"%{name}%")).all()
