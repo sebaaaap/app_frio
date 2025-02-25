@@ -18,7 +18,7 @@ class RegistroRepository:
         return regist_db
 
     #busca el usuario y verifica que la hora de salida este vacia, si esta vacia, devuelve el registro 
-    def get_ultimo_registro(self, user_id: int) -> Optional[RegistroModel]:
+    def get_ultimo_registro_por_user(self, user_id: int) -> Optional[RegistroModel]:
         return self.db.query(RegistroModel).filter(
             RegistroModel.user_id == user_id,
             RegistroModel.tiempo_out.is_(None)  # Solo registros sin hora de salida

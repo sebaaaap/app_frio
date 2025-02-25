@@ -19,7 +19,7 @@ def ingresar_camara(request: Ingresar_Salir, db: Session = Depends(get_db)):
 
 @router.post(
     "/salir",
-    response_model=RegistroResponse,  
+    response_model=RegistroResponseNice,  
     status_code=status.HTTP_200_OK
 )
 def salir_camara(request: Ingresar_Salir, db: Session = Depends(get_db)):
@@ -27,8 +27,10 @@ def salir_camara(request: Ingresar_Salir, db: Session = Depends(get_db)):
         user_service = UserService(db)
         ## esto tiene el 'Registro_response'
         registro_db = service.salir(request.user_rut, request.user_password)
+        print(registro_db)
         # user_id = registro_db.get("user_id")
         # user_db = user_service.get_by_id(user_id)
+        registro = service.response_bonito(registro_db)
         
         if registro_db:
-            return registro_db
+            return registro
