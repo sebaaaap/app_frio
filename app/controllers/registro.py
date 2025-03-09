@@ -34,3 +34,16 @@ def salir_camara(request: Ingresar_Salir, db: Session = Depends(get_db)):
         
         if registro_db:
             return registro
+
+
+@router.post("/{accion}", 
+             response_model=bool,
+             status_code= status.HTTP_200_OK)
+def ingreso_salida(request : Ingresar_Salir, accion : str, db : Session = Depends(get_db)):
+        service = RegistroService(db)
+        if accion == 'ingresar':     
+            return service.ingresar(request.user_rut, request.user_password)
+        elif accion == 'salir':
+            return service.salir(request.user_rut, request.user_password)
+            
+

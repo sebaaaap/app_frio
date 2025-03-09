@@ -24,6 +24,7 @@ class RegistroService :
                 'user_id' : user_db.id,      
                 'tiempo_in':  datetime.now()
             }
+            
             registro = self.registro_repo.create(registro_data)
             
             return True
