@@ -13,15 +13,22 @@ class RegistroService :
         
     def ingresar(self, rut : str, password : str):
         try:
+            
+            ##verificar credenciales
             user_db = self.user_repo.verificar_credenciales(rut,password)
             if not user_db:
                 raise HTTPException(
                     status_code=status.HTTP_401_UNAUTHORIZED,
                     detail="Credenciales inválidas"
                 )
-                
+            
             registro = self.registro_repo.verificar_si_ya_ingreso(rut)
-            print(registro)
+            if registro:
+                raise HTTPException(
+                    status_code= status.HTTP_400_BAD_REQUEST,
+                    detail= 'No se registra la salida'
+                ) 
+            
                 
             registro_data = {
                 'user_id' : user_db.id,      
@@ -86,9 +93,9 @@ class RegistroService :
     #             detail=f"Error al registrar la : {str(e)}"
     #         )
     
-    def response_bonito(self, data = RegistroResponse) -> Optional[RegistroResponseNice]:
+    def response_bonito(self, data = RegistroResponse, time_inside = str) -> Optional[RegistroResponseNice]:
         user_db = self.user_repo.get_by_id(data["user_id"])
-        string_time = data["time_inside"]
+        string_time = time_inside
         lista_time= string_time.split('.')
         tiempo_bonito = lista_time[0]
         
@@ -118,13 +125,14 @@ class RegistroService :
                 )
                 
             time_out = datetime.now()
-            print(time_out)
+            
             self.registro_repo.actualizar_salida(register.id, time_out)
             
             time_inside = register.tiempo_dentro()
-            print(time_inside)
             
-            return self.response_bonito(register)
+            
+            register_dict = register.__dict__
+            return self.response_bonito(register_dict, str(time_inside))
             
             
         except HTTPException as http_exc:
