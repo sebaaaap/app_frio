@@ -1,6 +1,7 @@
 
 from typing import Optional
 from app.models.registro import RegistroModel
+from app.models.user import UserModel
 from sqlalchemy.orm import Session
 from _datetime import datetime
 
@@ -32,3 +33,9 @@ class RegistroRepository:
             self.db.commit()
             self.db.refresh(registro_db)
         return registro_db 
+    
+    def verificar_si_ya_ingreso(self, user_rut:int) -> Optional[UserModel]:
+        user_db = self.db.query(UserModel).filter(UserModel.rut == user_rut).first()
+        registro_db = self.db.query(RegistroModel).filter(RegistroModel.user_id == user_db.id, 
+                                                          RegistroModel.tiempo_out.is_(None)).first()
+        return registro_db

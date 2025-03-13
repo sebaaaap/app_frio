@@ -20,6 +20,9 @@ class RegistroService :
                     detail="Credenciales inválidas"
                 )
                 
+            registro = self.registro_repo.verificar_si_ya_ingreso(rut)
+            print(registro)
+                
             registro_data = {
                 'user_id' : user_db.id,      
                 'tiempo_in':  datetime.now()
@@ -37,51 +40,51 @@ class RegistroService :
                 detail=f"Error al registrar la salida: {str(e)}"
             )
     
-    def salir(self, user_rut: str, user_password: str) -> Optional[RegistroResponse]:
-        try:
-            # Verificar las credenciales del usuario
-            user_db = self.user_repo.verificar_credenciales(user_rut, user_password)
-            if not user_db:
-                raise HTTPException(
-                    status_code=status.HTTP_401_UNAUTHORIZED,
-                    detail="Credenciales inválidas jonathan"
-                )
+    # def salir(self, user_rut: str, user_password: str) -> Optional[RegistroResponse]:
+    #     try:
+    #         # Verificar las credenciales del usuario
+    #         user_db = self.user_repo.verificar_credenciales(user_rut, user_password)
+    #         if not user_db:
+    #             raise HTTPException(
+    #                 status_code=status.HTTP_401_UNAUTHORIZED,
+    #                 detail="Credenciales inválidas jonathan"
+    #             )
 
-            # Obtener el último registro de entrada del usuario
-            registro_db = self.registro_repo.get_ultimo_registro_por_user(user_db.id)
-            if not registro_db or registro_db.tiempo_out:
-                raise HTTPException(
-                    status_code=status.HTTP_404_NOT_FOUND,
-                    detail="no hay registro de entrada"
-                )
+    #         # Obtener el último registro de entrada del usuario
+    #         registro_db = self.registro_repo.get_ultimo_registro_por_user(user_db.id)
+    #         if not registro_db or registro_db.tiempo_out:
+    #             raise HTTPException(
+    #                 status_code=status.HTTP_404_NOT_FOUND,
+    #                 detail="no hay registro de entrada"
+    #             )
 
-            # Actualizar el tiempo de salida
-            tiempo_out = datetime.now()
-            self.registro_repo.actualizar_salida(registro_db.id, tiempo_out)
+    #         # Actualizar el tiempo de salida
+    #         tiempo_out = datetime.now()
+    #         self.registro_repo.actualizar_salida(registro_db.id, tiempo_out)
 
-            # Calcular el tiempo dentro de la cámara
-            tiempo_dentro = registro_db.tiempo_dentro()
+    #         # Calcular el tiempo dentro de la cámara
+    #         tiempo_dentro = registro_db.tiempo_dentro()
 
-            # Retornar la información en el formato esperado
-            return {
-                "id": registro_db.id,
-                "user_id": registro_db.user_id,
-                "time_in": registro_db.tiempo_in,
-                "time_out": tiempo_out,
-                "time_inside": str(tiempo_dentro)  # Convertir a cadena
-            }
-            # print(registro_db)
-            # Response = RegistroResponse.model_validate(registro_db)
+    #         # Retornar la información en el formato esperado
+    #         return {
+    #             "id": registro_db.id,
+    #             "user_id": registro_db.user_id,
+    #             "time_in": registro_db.tiempo_in,
+    #             "time_out": tiempo_out,
+    #             "time_inside": str(tiempo_dentro)  # Convertir a cadena
+    #         }
+    #         # print(registro_db)
+    #         # Response = RegistroResponse.model_validate(registro_db)
             
-            # return Response
+    #         # return Response
 
-        except HTTPException as http_exc:
-            raise http_exc
-        except Exception as e:
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail=f"Error al registrar la : {str(e)}"
-            )
+    #     except HTTPException as http_exc:
+    #         raise http_exc
+    #     except Exception as e:
+    #         raise HTTPException(
+    #             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+    #             detail=f"Error al registrar la : {str(e)}"
+    #         )
     
     def response_bonito(self, data = RegistroResponse) -> Optional[RegistroResponseNice]:
         user_db = self.user_repo.get_by_id(data["user_id"])
@@ -96,3 +99,40 @@ class RegistroService :
             user_company= user_db.company,
             time_inside= tiempo_bonito
         )
+        
+    def salir2(self, rut: str, password: str):
+        try:
+            ##verificar existencia
+            user_db = self.user_repo.verificar_credenciales(rut, password)
+            if user_db is None:
+                raise HTTPException(
+                    status_code= status.HTTP_400_BAD_REQUEST,
+                    detail= 'credenciales invalidas'
+                )
+            ##verificar si ya salio de la camara
+            register = self.registro_repo.get_ultimo_registro_por_user(user_db.id)
+            if register is None:
+                raise HTTPException(
+                    status_code= status.HTTP_400_BAD_REQUEST,
+                    detail= 'no hay registro de entrada'
+                )
+                
+            time_out = datetime.now()
+            print(time_out)
+            self.registro_repo.actualizar_salida(register.id, time_out)
+            
+            time_inside = register.tiempo_dentro()
+            print(time_inside)
+            
+            return self.response_bonito(register)
+            
+            
+        except HTTPException as http_exc:
+            raise http_exc
+        except Exception as e:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail=f"Error al registrar la : {str(e)}"
+            )
+        
+        

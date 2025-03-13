@@ -29,5 +29,5 @@ def read_root():
 # Monta las rutas
 # app.include_router(user_router, prefix="/adecco/users")
 # Monta las rutas
-app.include_router(user_router, prefix="/adecco/users")
-app.include_router(registro_router, prefix="/adecco/registro")
+app.include_router(user_router, prefix="/api/users")
+app.include_router(registro_router, prefix="/api/registro")
