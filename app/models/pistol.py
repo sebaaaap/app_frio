@@ -12,7 +12,4 @@ class PistolModel(Base):
     availability = Column(Enum('Disponible', 'En uso', 'No disponible', 
                                name='pistol_availability'), nullable=False)
     
-    user_id = Column(Integer, ForeignKey('users.id'), nullable=True)
-    user = relationship("UserModel", back_populates="pistols")
-    
     registrosrf = relationship("RegistroRFModel", back_populates="pistols")
