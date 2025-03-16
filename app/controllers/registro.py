@@ -9,7 +9,7 @@ router = APIRouter()
 
 @router.post(
     "/ingresar",
-    response_model=bool,  # Retornar un booleano
+    response_model=RegistroResponseNice,  # Retornar un booleano
     status_code=status.HTTP_201_CREATED
 )
 def ingresar_camara(request: Ingresar_Salir, db: Session = Depends(get_db)):

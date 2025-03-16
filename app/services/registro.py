@@ -26,7 +26,7 @@ class RegistroService :
             if registro:
                 raise HTTPException(
                     status_code= status.HTTP_400_BAD_REQUEST,
-                    detail= 'No se registra la salida'
+                    detail= 'No se a registrado la salida'
                 ) 
             
                 
@@ -37,7 +37,9 @@ class RegistroService :
             
             registro = self.registro_repo.create(registro_data)
             
-            return True
+            registro_bonito = self.response_bonito(registro.__dict__)
+            print(registro_bonito)
+            return registro_bonito
         
         except HTTPException as http_exc:
             raise http_exc
