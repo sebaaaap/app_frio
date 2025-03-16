@@ -3,7 +3,7 @@ from sqlalchemy.orm import *
 from app.database.conexion import Base
 
 class PistolModel(Base):
-    __tablename__ = 'pistolas'
+    __tablename__ = 'pistols'
     __table_args__ = {'quote': False}
     
     id = Column(Integer, primary_key= True, autoincrement= True)

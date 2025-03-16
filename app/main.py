@@ -3,6 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware  # Importa el middleware CORS
 from app.database.conexion import Base, engine
 from app.models.registro import RegistroModel
 from app.models.user import UserModel
+from app.models.pistol import PistolModel
+from app.models.registrorf import RegistroRFModel
 from app.controllers.registro import router as registro_router
 from app.controllers.user import router as user_router
 

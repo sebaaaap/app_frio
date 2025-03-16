@@ -4,6 +4,8 @@ from app.database.conexion import Base
 from datetime import datetime
 
 class RegistroRFModel(Base):
+    __tablename__ = 'registros_rf'
+    __table_args__ = {'quote': False}
     
     id = Column(Integer, primary_key=True, autoincrement=True)
     start_time = Column(DateTime, nullable=False, default=datetime.now)  # Fecha y hora de inicio
