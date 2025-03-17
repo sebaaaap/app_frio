@@ -18,7 +18,7 @@ class RegistroRFUpdate(BaseModel):
     status: Optional[str] = Field(None, description="Estado de la pistola al devolverla (Bueno, Malo, Regular)")
     comment: Optional[str] = Field(None, description="Comentario opcional")
 
-class RegistroResponse(RegistroRFBase):
+class RegistroRFResponse(RegistroRFBase):
     id = int
     
 

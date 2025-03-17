@@ -8,6 +8,7 @@ from app.models.registrorf import RegistroRFModel
 from app.controllers.registro import router as registro_router
 from app.controllers.user import router as user_router
 from app.controllers.pistol import router as pistol_router
+from app.controllers.registrorf import router as rf_router
 
 # Crea la instancia de FastAPI
 app = FastAPI()
@@ -35,4 +36,5 @@ def read_root():
 app.include_router(user_router, prefix="/api/users")
 app.include_router(registro_router, prefix="/api/registro")
 app.include_router(pistol_router, prefix="/api/pistol")
+app.include_router(rf_router, prefix="/api/rf")
 
