@@ -6,7 +6,7 @@ class PistolRepository:
     def __init__(self, db: Session):
         self.db = db
 
-    def get_pistol(self, pistol_id: int):
+    def get_pistol_by_id(self, pistol_id: int):
         return self.db.query(PistolModel).filter(PistolModel.id == pistol_id).first()
 
     def get_pistols(self, skip: int = 0, limit: int = 100):

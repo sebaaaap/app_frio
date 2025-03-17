@@ -20,7 +20,7 @@ class RegistroRFModel(Base):
 
     id_pistol = Column(Integer, ForeignKey('pistols.id'), nullable=False)  # Foreign Key a Pistols
     # Relación con la tabla Pistols (un registro está asociado a una pistola)
-    pistol = relationship("PistolModel", back_populates="registros_rf")
+    pistols = relationship("PistolModel", back_populates="registros_rf")
 
     def __repr__(self):
         return f"<RegistrosRF(id={self.id}, start_time={self.start_time}, end_time={self.end_time}, status={self.status})>"

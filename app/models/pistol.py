@@ -12,4 +12,4 @@ class PistolModel(Base):
     availability = Column(Enum('Disponible', 'En uso', 'No disponible', 
                                name='pistol_availability'), nullable=False)
     
-    registrosrf = relationship("RegistroRFModel", back_populates="pistols")
+    registros_rf = relationship("RegistroRFModel", back_populates="pistols")

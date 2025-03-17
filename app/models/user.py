@@ -18,9 +18,9 @@ class UserModel(Base):
     # Relación con Registro
     registros = relationship("RegistroModel", back_populates="user")
     
-    # Relacion con pistols
+    # Relacion con registros
     
-    pistols = relationship("PistolModel", back_populates="user")
+    registros_rf = relationship("RegistroRFModel", back_populates="user")
     
     def to_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
