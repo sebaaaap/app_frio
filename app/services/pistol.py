@@ -37,3 +37,34 @@ class PistolService:
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail=f"Error al obtener la pistola: {str(e)}"
             )
+            
+    def actualizar_estados_pistola(self, pistol_id: int, data = PistolUpdate):
+        try:
+            
+            return self.pistol_repo.update_pistol(pistol_id, data)
+        except HTTPException as http_exc:
+            # Re-lanzar la excepción HTTPException para que FastAPI la maneje
+            raise http_exc
+
+        except Exception as e:
+            # Manejar cualquier error inesperado
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail=f"Error al actualizar pistola: {str(e)}"
+            )
+    
+    def get_pistols_disponibles(self):
+        try: 
+            
+            return self.pistol_repo.get_all_pistol_disponibles()
+        
+        except HTTPException as http_exc:
+            # Re-lanzar la excepción HTTPException para que FastAPI la maneje
+            raise http_exc
+
+        except Exception as e:
+            # Manejar cualquier error inesperado
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail=f"Error al actualizar pistola: {str(e)}"
+            )

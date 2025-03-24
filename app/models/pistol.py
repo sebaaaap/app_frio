@@ -11,5 +11,6 @@ class PistolModel(Base):
     status = Column(String, nullable=False)
     availability = Column(Enum('Disponible', 'En uso', 'No disponible', 
                                name='pistol_availability'), nullable=False)
+    in_picking = Column(Boolean, nullable=False )
     
     registros_rf = relationship("RegistroRFModel", back_populates="pistols")

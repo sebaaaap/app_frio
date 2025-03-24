@@ -19,8 +19,9 @@ class RegistroRFUpdate(BaseModel):
     comment: Optional[str] = Field(None, description="Comentario opcional")
 
 class RegistroRFResponse(RegistroRFBase):
-    id = int
+    id : int
     
+
 
     class Config:
         from_attributes = True  # Habilita la compatibilidad con ORM
