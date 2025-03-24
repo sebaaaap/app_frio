@@ -27,7 +27,14 @@ def get_pistols_disponibles(db : Session = Depends(get_db)):
     servicio = PistolService(db)
     return servicio.get_pistols_disponibles()
 
-    
+@router.put(
+    "/utilizar_devolver/{id}",
+    status_code= status.HTTP_202_ACCEPTED,
+    response_model= PistolResponse
+)
+def update_picking(id : int, data: PistolUpdate, db :  Session = Depends(get_db)):
+    servicio = PistolService(db)
+    return servicio.actualizar_estados_pistola(id, data)
 
             
             
