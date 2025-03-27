@@ -16,11 +16,11 @@ class RegistroRFModel(Base):
 
     id_user = Column(Integer, ForeignKey('users.id'), nullable=False)  # Foreign Key a Users
     # Relación con la tabla Users (un registro está asociado a un usuario)
-    user = relationship("UserModel", back_populates="registros_rf")
+    user = relationship("UserModel", back_populates="registros_rf", lazy="joined")
 
     id_pistol = Column(Integer, ForeignKey('pistols.id'), nullable=False)  # Foreign Key a Pistols
     # Relación con la tabla Pistols (un registro está asociado a una pistola)
-    pistols = relationship("PistolModel", back_populates="registros_rf")
+    pistols = relationship("PistolModel", back_populates="registros_rf", lazy="joined")
 
     def __repr__(self):
         return f"<RegistrosRF(id={self.id}, start_time={self.start_time}, end_time={self.end_time}, status={self.status})>"

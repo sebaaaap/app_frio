@@ -1,3 +1,4 @@
+from datetime import datetime
 from sqlalchemy.orm import Session
 from app.models.registrorf import RegistroRFModel
 from app.schemas.registrorf import RegistroRFCreate, RegistroRFUpdate
@@ -17,7 +18,22 @@ class RegistroRFRepository:
         self.db.add(db_registro)
         self.db.commit()
         self.db.refresh(db_registro)
+        
+        db_registro = (
+        self.db.query(RegistroRFModel)
+        .filter(RegistroRFModel.id == db_registro.id)
+        .first()
+        )
+
         return db_registro
+    
+    def end_time(self, id : int, time_end : datetime):
+        db_registro = self.db.query(RegistroRFModel).filter(RegistroRFModel.id == id).first()
+        db_registro.end_time = time_end
+        self.db.commit()
+        self.db.refresh(db_registro)
+        return db_registro
+        
 
     def update_registro_rf(self, registro_id: int, registro: RegistroRFUpdate):
         db_registro = self.get_registro_rf(registro_id)

@@ -13,10 +13,8 @@ class RegistroRFBase(BaseModel):
 class RegistroRFCreate(RegistroRFBase):
     pass
 
-class RegistroRFUpdate(BaseModel):
-    end_time: Optional[datetime] = Field(None, description="Fecha y hora de término")
-    status: Optional[str] = Field(None, description="Estado de la pistola al devolverla (Bueno, Malo, Regular)")
-    comment: Optional[str] = Field(None, description="Comentario opcional")
+class RegistroRFUpdate(RegistroRFBase):
+    pass
 
 class RegistroRFResponse(RegistroRFBase):
     id : int
